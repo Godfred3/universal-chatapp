@@ -219,31 +219,18 @@ function NewChatModal({
         onPress={onClose}
       >
         <View style={styles.modalContent}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Start New</Text>
-            <TouchableOpacity onPress={onClose}>
-              <X size={20} color={theme.text} strokeWidth={2.5} />
-            </TouchableOpacity>
-          </View>
-
           <TouchableOpacity style={styles.modalOption} activeOpacity={0.7} onPress={onClose}>
             <View style={[styles.modalIconContainer, { backgroundColor: theme.primary + "15" }]}>
-              <MessageSquare size={20} color={theme.primary} />
+              <MessageSquare size={18} color={theme.primary} />
             </View>
-            <View>
-              <Text style={styles.modalOptionText}>New Chat</Text>
-              <Text style={styles.modalOptionSub}>Send a message to a contact</Text>
-            </View>
+            <Text style={styles.modalOptionText}>New Chat</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.modalOption} activeOpacity={0.7} onPress={onClose}>
             <View style={[styles.modalIconContainer, { backgroundColor: theme.primary + "15" }]}>
-              <Users size={20} color={theme.primary} />
+              <Users size={18} color={theme.primary} />
             </View>
-            <View>
-              <Text style={styles.modalOptionText}>New Group</Text>
-              <Text style={styles.modalOptionSub}>Create a group with multiple people</Text>
-            </View>
+            <Text style={styles.modalOptionText}>New Group</Text>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
@@ -609,52 +596,40 @@ const createStyles = (theme: any) => StyleSheet.create({
   // Modal Styles
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0.2)",
     justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
   modalContent: {
-    backgroundColor: theme.background,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    padding: 24,
-    paddingBottom: 40 + BottomTabInset,
+    backgroundColor: theme.backgroundElement,
+    borderRadius: 16,
+    padding: 8,
+    marginRight: 24,
+    marginBottom: 90 + BottomTabInset,
+    width: 180,
     shadowColor: "#000",
     shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 20,
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  modalTitle: {
-    fontSize: 20,
-    color: theme.text,
-    fontFamily: Fonts?.sansBold,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 8,
   },
   modalOption: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 16,
-    gap: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    gap: 12,
   },
   modalIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
   },
   modalOptionText: {
-    fontSize: 16,
+    fontSize: 15,
     color: theme.text,
-    fontFamily: Fonts?.sansBold,
-  },
-  modalOptionSub: {
-    fontSize: 13,
-    color: theme.textSecondary,
-    fontFamily: Fonts?.sans,
+    fontFamily: Fonts?.sansMedium,
   },
 });
