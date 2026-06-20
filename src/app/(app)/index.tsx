@@ -204,6 +204,7 @@ function NewChatModal({
   onClose: () => void;
 }) {
   const theme = useTheme();
+  const router = useRouter();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   return (
@@ -219,14 +220,28 @@ function NewChatModal({
         onPress={onClose}
       >
         <View style={styles.modalContent}>
-          <TouchableOpacity style={styles.modalOption} activeOpacity={0.7} onPress={onClose}>
+          <TouchableOpacity 
+            style={styles.modalOption} 
+            activeOpacity={0.7} 
+            onPress={() => {
+              onClose();
+              router.push('/(public)/new_chat');
+            }}
+          >
             <View style={[styles.modalIconContainer, { backgroundColor: theme.primary + "15" }]}>
               <MessageSquare size={18} color={theme.primary} />
             </View>
             <Text style={styles.modalOptionText}>New Chat</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.modalOption} activeOpacity={0.7} onPress={onClose}>
+          <TouchableOpacity 
+            style={styles.modalOption} 
+            activeOpacity={0.7} 
+            onPress={() => {
+              onClose();
+              router.push('/(public)/new_group');
+            }}
+          >
             <View style={[styles.modalIconContainer, { backgroundColor: theme.primary + "15" }]}>
               <Users size={18} color={theme.primary} />
             </View>
