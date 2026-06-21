@@ -1,38 +1,35 @@
 // app/(tabs)/chats.tsx
-import React, { useState, useMemo } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  StatusBar,
-  Image,
-  Platform,
-} from "react-native";
 import { useRouter } from "expo-router";
 import {
-  Search,
+  MessageSquare,
+  Mic,
   MoreVertical,
   Pin,
-  Mic,
-  Sticker,
-  RefreshCw,
   Plus,
-  Users,
-  MessageSquare,
-  X,
+  RefreshCw,
+  Search,
+  Users
 } from "lucide-react-native";
+import { useMemo, useState } from "react";
+import {
+  FlatList,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 
-import { useTheme } from "@/hooks/use-theme";
-import { Fonts, BottomTabInset } from "@/constants/theme";
+import { BottomTabInset, Fonts } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useTheme } from "@/hooks/use-theme";
 import { Modal } from "react-native";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-type Tab = "All Chats" | "Groups" | "Contacts";
+type Tab = "All Chats" | "Groups";
 
 interface ChatItem {
   id: string;
@@ -147,9 +144,9 @@ function Avatar({
         },
       ]}
     >
-      <Text style={{ 
-        color: "#fff", 
-        fontWeight: "700", 
+      <Text style={{
+        color: "#fff",
+        fontWeight: "700",
         fontSize: size * 0.33,
         fontFamily: Fonts?.sansBold
       }}>
@@ -220,9 +217,9 @@ function NewChatModal({
         onPress={onClose}
       >
         <View style={styles.modalContent}>
-          <TouchableOpacity 
-            style={styles.modalOption} 
-            activeOpacity={0.7} 
+          <TouchableOpacity
+            style={styles.modalOption}
+            activeOpacity={0.7}
             onPress={() => {
               onClose();
               router.push('/(public)/new_chat');
@@ -234,9 +231,9 @@ function NewChatModal({
             <Text style={styles.modalOptionText}>New Chat</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={styles.modalOption} 
-            activeOpacity={0.7} 
+          <TouchableOpacity
+            style={styles.modalOption}
+            activeOpacity={0.7}
             onPress={() => {
               onClose();
               router.push('/(public)/new_group');
@@ -266,7 +263,7 @@ export default function ChatsScreen() {
 
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const tabs: Tab[] = ["All Chats", "Groups", "Contacts"];
+  const tabs: Tab[] = ["All Chats", "Groups"];
 
   const filtered = CHATS.filter((c) =>
     c.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -281,9 +278,9 @@ export default function ChatsScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar 
-        barStyle={colorScheme === 'dark' ? "light-content" : "dark-content"} 
-        backgroundColor={theme.background} 
+      <StatusBar
+        barStyle={colorScheme === 'dark' ? "light-content" : "dark-content"}
+        backgroundColor={theme.background}
       />
 
       {/* ── Header ── */}
@@ -388,8 +385,8 @@ export default function ChatsScreen() {
       />
 
       {/* ── FAB ── */}
-      <TouchableOpacity 
-        style={styles.fab} 
+      <TouchableOpacity
+        style={styles.fab}
         activeOpacity={0.85}
         onPress={() => setFabModalVisible(true)}
       >
@@ -397,9 +394,9 @@ export default function ChatsScreen() {
       </TouchableOpacity>
 
       {/* ── Modals ── */}
-      <NewChatModal 
-        visible={fabModalVisible} 
-        onClose={() => setFabModalVisible(false)} 
+      <NewChatModal
+        visible={fabModalVisible}
+        onClose={() => setFabModalVisible(false)}
       />
     </View>
   );

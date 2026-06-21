@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, SafeAreaView } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-import { Search, MoreVertical, Users, UserPlus, QrCode, User } from 'lucide-react-native';
-import { useTheme } from '@/hooks/use-theme';
 import { Fonts } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
+import { Stack, useRouter } from 'expo-router';
+import { MoreVertical, Search, User, Users } from 'lucide-react-native';
+import { useMemo, useState } from 'react';
+import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Contact {
   id: string;
@@ -55,24 +56,15 @@ export default function NewChatScreen() {
   const theme = useTheme();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   const styles = useMemo(() => createStyles(theme), [theme]);
+
+  const filteredContacts = dummyContacts.filter((c) =>
+    c.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   const renderHeader = () => (
     <View>
-      <View style={styles.searchContainer}>
-        <View style={styles.searchInputWrapper}>
-          <Search size={20} color={theme.textSecondary} style={styles.searchIcon} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search name or number"
-            placeholderTextColor={theme.textSecondary}
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
-        </View>
-      </View>
-
       <View style={styles.sectionHeaderContainer}>
         <Text style={styles.sectionHeader}>Select a contact to begin a new chat</Text>
       </View>
@@ -85,22 +77,7 @@ export default function NewChatScreen() {
           <Text style={styles.actionText}>New Group</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.actionRow} activeOpacity={0.7}>
-          <View style={[styles.actionIconContainer, { backgroundColor: theme.primary + '20' }]}>
-            <UserPlus size={24} color={theme.primary} />
-          </View>
-          <View style={styles.actionTextContainer}>
-            <Text style={styles.actionText}>New Contact</Text>
-            <QrCode size={20} color={theme.textSecondary} />
-          </View>
-        </TouchableOpacity>
 
-        <TouchableOpacity style={styles.actionRow} activeOpacity={0.7}>
-          <View style={[styles.actionIconContainer, { backgroundColor: theme.primary + '20' }]}>
-            <Users size={24} color={theme.primary} />
-          </View>
-          <Text style={styles.actionText}>New Community</Text>
-        </TouchableOpacity>
       </View>
 
       <View style={styles.contactsHeaderContainer}>
@@ -126,8 +103,8 @@ export default function NewChatScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Stack.Screen 
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <Stack.Screen
         options={{
           headerTitle: () => (
             <View>
@@ -153,8 +130,22 @@ export default function NewChatScreen() {
         }}
       />
 
+      {/* Sticky search bar — outside FlatList so it never scrolls */}
+      <View style={styles.searchContainer}>
+        <View style={styles.searchInputWrapper}>
+          <Search size={20} color={theme.textSecondary} style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search name or number"
+            placeholderTextColor={theme.textSecondary}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+        </View>
+      </View>
+
       <FlatList
-        data={dummyContacts}
+        data={filteredContacts}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={renderHeader}
         renderItem={renderContact}
@@ -191,7 +182,8 @@ const createStyles = (theme: any) => StyleSheet.create({
   },
   searchContainer: {
     paddingHorizontal: 24,
-    paddingVertical: 16,
+    paddingTop: 20,
+    paddingBottom: 8,
   },
   searchInputWrapper: {
     flexDirection: 'row',
