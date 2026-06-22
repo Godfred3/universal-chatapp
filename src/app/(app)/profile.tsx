@@ -166,8 +166,8 @@ export default function ProfileScreen() {
           />
           <View style={[styles.divider, { backgroundColor: theme.backgroundSelected }]} />
           <SettingsRow icon={<Key size={20} color={theme.primary} />} title="Account" subtitle="Security notifications, change number" onPress={() => router.push('/(public)/setting_account')} />
-          <SettingsRow icon={<Lock size={20} color={theme.primary} />} title="Privacy" subtitle="Block contacts, disappearing messages" />
-          <SettingsRow icon={<Bell size={20} color={theme.primary} />} title="Notifications" subtitle="Message, group & call tones" />
+          <SettingsRow icon={<Lock size={20} color={theme.primary} />} title="Privacy" subtitle="Block contacts, disappearing messages" onPress={() => router.push('/(public)/setting_privacy')} />
+          <SettingsRow icon={<Bell size={20} color={theme.primary} />} title="Notifications" subtitle="Message, group & call tones" onPress={() => router.push('/(public)/setting_notification')} />
           <SettingsRow icon={<HelpCircle size={20} color={theme.primary} />} title="Help" subtitle="Help center, contact us, privacy policy" />
           <View style={[styles.divider, { backgroundColor: theme.backgroundSelected }]} />
           <SettingsRow icon={<UserPlus size={20} color={theme.primary} />} title="Invite a friend" />
