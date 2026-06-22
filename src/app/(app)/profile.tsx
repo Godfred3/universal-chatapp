@@ -1,5 +1,5 @@
 // screens/ProfileScreen.tsx
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   Platform,
   Image,
   Animated,
+  Alert,
 } from 'react-native';
 import {
   ArrowLeft,
@@ -29,6 +30,7 @@ import { Fonts } from '@/constants/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeContext } from '@/context/theme-context';
 import { useRouter } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
 
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
 
@@ -80,6 +82,24 @@ export default function ProfileScreen() {
   const router = useRouter();
   const scrollY = useRef(new Animated.Value(0)).current;
   const isDarkMode = activeScheme === 'dark';
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission Required', 'Please grant gallery access to change your profile picture.');
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    });
+    if (!result.canceled && result.assets[0]) {
+      setProfileImage(result.assets[0].uri);
+    }
+  };
 
   const headerBackground = scrollY.interpolate({
     inputRange: [0, 30],
@@ -134,11 +154,11 @@ export default function ProfileScreen() {
           <View style={styles.avatarContainer}>
             <Image
               source={{
-                uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD86Zp2c2-NuX03NoXB8sA5mWbUhaN4YbIUEDA171wU0sIFrjU2lFzRXOkj82c7ughRipViZ5iugTCeuAkYilEosDWwUYONzh5wwS-ogpUSmwsLlYvvyNVsvBjmto1plrTP6Ihe3zdkYt5B2MhcJ0s36aa5upBAxm1wyUOdQ_MbjlBbvOdOwA3LSLWYSbTESRFTkW2NbZdguuEco4EkaPZxvmVqW_c6PXC2sEkjvMrCfMVw6dXq6ixmGYD_4z9sJ0AkXJDGr1FGY40',
+                uri: profileImage ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuD86Zp2c2-NuX03NoXB8sA5mWbUhaN4YbIUEDA171wU0sIFrjU2lFzRXOkj82c7ughRipViZ5iugTCeuAkYilEosDWwUYONzh5wwS-ogpUSmwsLlYvvyNVsvBjmto1plrTP6Ihe3zdkYt5B2MhcJ0s36aa5upBAxm1wyUOdQ_MbjlBbvOdOwA3LSLWYSbTESRFTkW2NbZdguuEco4EkaPZxvmVqW_c6PXC2sEkjvMrCfMVw6dXq6ixmGYD_4z9sJ0AkXJDGr1FGY40',
               }}
               style={[styles.avatar, { borderColor: theme.backgroundSelected }]}
             />
-            <TouchableOpacity style={[styles.cameraBtn, { backgroundColor: theme.primary }]} activeOpacity={0.8}>
+            <TouchableOpacity style={[styles.cameraBtn, { backgroundColor: theme.primary }]} activeOpacity={0.8} onPress={pickImage}>
               <Camera size={20} color="#fff" />
             </TouchableOpacity>
           </View>
