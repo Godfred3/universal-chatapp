@@ -28,6 +28,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { Fonts } from '@/constants/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeContext } from '@/context/theme-context';
+import { useRouter } from 'expo-router';
 
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
 
@@ -76,6 +77,7 @@ const SettingsRow = ({ icon, title, subtitle, onPress, rightElement }: SettingsR
 export default function ProfileScreen() {
   const theme = useTheme();
   const { theme: currentTheme, setTheme, colorScheme: activeScheme } = useThemeContext();
+  const router = useRouter();
   const scrollY = useRef(new Animated.Value(0)).current;
   const isDarkMode = activeScheme === 'dark';
 
@@ -163,7 +165,7 @@ export default function ProfileScreen() {
             }
           />
           <View style={[styles.divider, { backgroundColor: theme.backgroundSelected }]} />
-          <SettingsRow icon={<Key size={20} color={theme.primary} />} title="Account" subtitle="Security notifications, change number" />
+          <SettingsRow icon={<Key size={20} color={theme.primary} />} title="Account" subtitle="Security notifications, change number" onPress={() => router.push('/(public)/setting_account')} />
           <SettingsRow icon={<Lock size={20} color={theme.primary} />} title="Privacy" subtitle="Block contacts, disappearing messages" />
           <SettingsRow icon={<Bell size={20} color={theme.primary} />} title="Notifications" subtitle="Message, group & call tones" />
           <SettingsRow icon={<HelpCircle size={20} color={theme.primary} />} title="Help" subtitle="Help center, contact us, privacy policy" />
