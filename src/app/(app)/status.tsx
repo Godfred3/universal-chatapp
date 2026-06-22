@@ -20,6 +20,7 @@ import {
 } from "lucide-react-native";
 import { useTheme } from "@/hooks/use-theme";
 import { Fonts } from "@/constants/theme";
+import { useRouter } from "expo-router";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -296,6 +297,7 @@ function CreateStatusModal({ visible, onClose }: { visible: boolean; onClose: ()
 
 export default function StatusScreen() {
   const theme = useTheme();
+  const router = useRouter();
   const [createVisible, setCreateVisible] = useState(false);
   const [viewItem, setViewItem] = useState<StatusItem | null>(null);
 
@@ -320,10 +322,10 @@ export default function StatusScreen() {
         <View style={styles.sectionHeaderRow}>
           <Text style={[styles.sectionTitle, { color: theme.text }]}>Status</Text>
           <View style={styles.sectionActions}>
-            <TouchableOpacity style={[styles.sectionIconBtn, { backgroundColor: theme.backgroundElement }]} onPress={() => setCreateVisible(true)}>
+            <TouchableOpacity style={[styles.sectionIconBtn, { backgroundColor: theme.backgroundElement }]} onPress={() => router.push('/(public)/status_camera')}>
               <Camera size={18} color={theme.text} strokeWidth={2} />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.sectionIconBtn, { backgroundColor: theme.backgroundElement }]} onPress={() => setCreateVisible(true)}>
+            <TouchableOpacity style={[styles.sectionIconBtn, { backgroundColor: theme.backgroundElement }]} onPress={() => router.push('/(public)/status_text')}>
               <PenLine size={18} color={theme.text} strokeWidth={2} />
             </TouchableOpacity>
           </View>
